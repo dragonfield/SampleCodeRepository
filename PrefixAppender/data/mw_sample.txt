@@ -1,0 +1,4 @@
+/MW/DB/host1/instanceA
+/MW/DB/host1/instanceB
+/MW/DB/host4/instanceC
+/MW/DB/host3/instanceD

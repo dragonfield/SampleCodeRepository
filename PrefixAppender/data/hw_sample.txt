@@ -1,0 +1,4 @@
+/Domain1/System1/subSystem1/HW/host1
+/Domain2/System2/subSystem1/HW/host2
+/Domain3/System3/subSystem1/HW/host3
+/Domain4/System4/subSystem1/HW/host4
