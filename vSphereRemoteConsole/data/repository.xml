@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE setting[
+  <!ELEMENT setting (vsphereserver+)>
+  <!ELEMENT vsphereserver (vm+)>
+  <!ELEMENT vm EMPTY>
+  <!ATTLIST setting home CDATA #REQUIRED>
+  <!ATTLIST vsphereserver host CDATA #REQUIRED>
+  <!ATTLIST vsphereserver version CDATA #REQUIRED>
+  <!ATTLIST vsphereserver user CDATA #REQUIRED>
+  <!ATTLIST vsphereserver password CDATA #REQUIRED>
+  <!ATTLIST vm name CDATA #REQUIRED>
+  <!ATTLIST vm datastore CDATA #REQUIRED>
+]>
+
+<setting home="C:/Program Files/VMware/Infrastructure/Virtual Infrastructure Client">
+  <vsphereserver host="host1.domain" version="4.0" user="root" password="welcome1">
+  	<vm name="host1RHEL4x32" datastore="datastore" />
+  </vsphereserver>
+  <vsphereserver host="host2.domain" version="4.0" user="root" password="welcome1">
+  	<vm name="host1RHEL4x32" datastore="datastore1" />
+  </vsphereserver>
+</setting>
+
