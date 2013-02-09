@@ -7,53 +7,68 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 public class Main {
 	private static final String SEPARATER = "/";
 	private static final int PREFIX_INDEX = 3;
-	private static final int PREFIX_KEY_DATA = 5;
-	private static final int APPENDER_KEY_DATA = 3;
+	private static final int SOURCE_KEY = 5;
+	private static final int TARGET_KEY = 3;
 
 	public static void main(String[] args) throws IOException {
-		File prefix_file = new File("data/hw_sample.txt");
-		File append_file = new File("data/mw_sample.txt");
-		File result_file = new File("data/result.txt");
+		if ((args.length == 1) && ("-h".equals(args[0]))){
+			exit(null);
+		}
 
-		HashMap<String, String> prefixMap = buildPrefixMap(prefix_file);
+		Properties arguments = parseArguments(args);
+		validateArguments(arguments);
+		doProcess(new File(arguments.getProperty("-s")), 
+				  new File(arguments.getProperty("-t")), 
+				  new File(arguments.getProperty("-o")));
+		
+		System.out.println("finished.");
+	}
+
+	private static void doProcess(File source, File target, File result) {
+		HashMap<String, String> prefixMap = buildPrefixMap(source);
 		
 		BufferedReader reader = null;
 		BufferedWriter writer = null;
 		
-		reader = new BufferedReader(new FileReader(append_file));
-		writer = new BufferedWriter(new FileWriter(result_file));
-		
-		System.out.println("Start appending prefix.");
-		String dataLine = null;
-		while ((dataLine = reader.readLine()) != null) {
-			System.out.print("Read=" + dataLine);
-			String key = extractKey(dataLine, APPENDER_KEY_DATA);
-			
-			String prefixData = prefixMap.get(key);
-			System.out.print(", Prefix data=" + prefixData);
-			
-			if (prefixData != null) {
-				String prefix = parsePrefix(prefixData);
-				String appendData = prefix + dataLine;
-				System.out.println(" => " + appendData);
-				writer.write(appendData + "\n");
+		try {
+			reader = new BufferedReader(new FileReader(target));
+			writer = new BufferedWriter(new FileWriter(result));
+
+			System.out.println("Start appending prefix.");
+			String dataLine = null;
+			while ((dataLine = reader.readLine()) != null) {
+				System.out.print("Read=" + dataLine);
+				String key = extractKey(dataLine, TARGET_KEY);
+				
+				String prefixData = prefixMap.get(key);
+				System.out.print(", source data=" + prefixData);
+				
+				if (prefixData != null) {
+					String prefix = parsePrefix(prefixData);
+					String appendData = prefix + dataLine;
+					System.out.println(" => " + appendData);
+					writer.write(appendData + "\n");
+				}
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+		} finally {
+			Utils.quietClose(reader);
+			Utils.quietClose(writer);
 		}
-		
-		reader.close();
-		writer.close();
-		
-		System.out.println("Appending prefix finished.\n");
+					
+		System.out.println("Appending prefix finished.\n");		
 	}
 	
-	
 	private static HashMap<String, String> buildPrefixMap(File file) {
-		System.out.println("Start generating prefix mapper");
+		System.out.println("Start generating prefix mapp");
 		HashMap<String, String> result = new HashMap<String, String>();
 		BufferedReader input = null;
 		
@@ -62,7 +77,7 @@ public class Main {
 			String dataLine = null;
 
 			while ((dataLine = input.readLine()) != null) {
-				String key = extractKey(dataLine, PREFIX_KEY_DATA);
+				String key = extractKey(dataLine, SOURCE_KEY);
 				
 				if (!result.containsKey(key)) { // need??
 					result.put(key, dataLine);
@@ -74,17 +89,11 @@ public class Main {
 			e.printStackTrace();
 
 		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (Exception e) {
-					//
-				}
-			}
+			Utils.quietClose(input);
 			
 		}
 		
-		System.out.println("Generating prefix mapper finished.\n");
+		System.out.println("Generating prefix map finished.\n");
 		return result;
 	}
 	
@@ -125,5 +134,70 @@ public class Main {
 		}		
 		
 		return result.toString();
+	}
+
+	private static Properties parseArguments(String[] argv) {
+		Properties result = new Properties();
+		String prev = null;
+		    
+		for (int i = 0; i < argv.length; i++) {
+			if ("-s".equals(prev)) {
+				result.setProperty(prev, argv[i]);
+			}
+
+			if ("-t".equals(prev)) {
+				result.setProperty(prev, argv[i]);
+			}
+
+			if ("-o".equals(prev)) {
+				result.setProperty(prev, argv[i]);
+			}
+		      		            
+			prev = argv[i];
+		}
+		    
+		return result;
+	}
+	
+	private static void validateArguments(Properties arguments) {
+		if (arguments.getProperty("-s") == null) {
+			exit("argument -s is not specified.");
+		} else {
+			File file = new File(arguments.getProperty("-s"));
+			if (!file.exists()) {
+				exit(file.getName() + " specifyed by -s not exist.");
+			}
+		}
+		
+		if (arguments.getProperty("-t") == null) {
+			exit("argument -t is not specified.");	
+		} else {
+			File file = new File(arguments.getProperty("-t"));
+			if (!file.exists()) {
+				exit(file.getName() + " specifyed by -t not exist.");
+			}
+		}
+			
+		if (arguments.getProperty("-o") == null) {
+			exit("argument -o is not specified.");
+		}
+		
+	}
+
+	private static void exit(String message) {
+		if (message != null) {
+			System.out.println(message);			
+		}
+		printUsage();
+		System.exit(-1);			
+	}
+
+	private static void printUsage() {
+		System.out.println("Usage : java -jar appender.jar -s <source_file> -t <target_file> -o <result_file>");
+	    System.out.println("  -s [required] : specify the source file to extract prefix.");
+	    System.out.println("  -t [required] : specify the target file to append prefix.");
+	    System.out.println("  -o [required] : specify the result file.");
+	    System.out.println("  -h            : print usage text.");
 	}	
+	
 }

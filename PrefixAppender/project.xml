@@ -24,7 +24,7 @@
 	<pomVersion>3</pomVersion>
   
 	<!-- a unique name for this project -->
-	<id>prefix</id>
+	<id>appender</id>
   
 	<!-- a short but descriptive name for the project -->
 	<name>PrefixAppender</name>
