@@ -86,7 +86,7 @@ public class Main {
 		logger_.info("Appending prefix finished.");		
 	}
 	
-	private static HashMap<String, String> buildPrefixMap(File file) {
+	static HashMap<String, String> buildPrefixMap(File file) {
 		logger_.info("Start generating prefix mapp");
 		HashMap<String, String> result = new HashMap<String, String>();
 		BufferedReader input = null;
@@ -116,7 +116,7 @@ public class Main {
 		return result;
 	}
 	
-	private static String extractKey(String line, int key) {
+	static String extractKey(String line, int key) {
 		String result = null;
 		
 		StringTokenizer tokenizer = new StringTokenizer(line, SEPARATER);
@@ -137,7 +137,7 @@ public class Main {
 		return result;
 	}
 	
-	private static String parsePrefix(String line) {
+	static String parsePrefix(String line) {
 		StringBuffer result = new StringBuffer();
 		
 		StringTokenizer tokenizer = new StringTokenizer(line, SEPARATER);
@@ -155,7 +155,7 @@ public class Main {
 		return result.toString();
 	}
 
-	private static Properties parseArguments(String[] argv) {
+	static Properties parseArguments(String[] argv) {
 		Properties result = new Properties();
 		String prev = null;
 		    
