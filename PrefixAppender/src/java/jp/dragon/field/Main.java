@@ -213,10 +213,10 @@ public class Main {
 
 	private static void printUsage() {
 		System.out.println("Usage : java -jar appender.jar -s <source_file> -t <target_file> -o <result_file>");
-	    System.out.println("  -s [required] : specify the source file to extract prefix.");
-	    System.out.println("  -t [required] : specify the target file to append prefix.");
-	    System.out.println("  -o [required] : specify the result file.");
-	    System.out.println("  -h            : print usage text.");
+		System.out.println("  -s [required] : specify the source file to extract prefix.");
+		System.out.println("  -t [required] : specify the target file to append prefix.");
+		System.out.println("  -o [required] : specify the result file.");
+		System.out.println("  -h            : print usage text.");
 	}	
 	
 }
