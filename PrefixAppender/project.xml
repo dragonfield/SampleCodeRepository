@@ -71,7 +71,7 @@
 			<resource>
 				<directory>src/conf</directory>
 				<includes>
-					<include>**/*.png</include>
+					<include>**/*.properties</include>
 				</includes>
 			</resource>
 		</resources>

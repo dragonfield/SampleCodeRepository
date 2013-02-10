@@ -9,14 +9,29 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
-public class Main {
+public class Main {	
 	private static final String SEPARATER = "/";
 	private static final int PREFIX_INDEX = 3;
 	private static final int SOURCE_KEY = 5;
 	private static final int TARGET_KEY = 3;
 
+	static Logger logger_ = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+	static {
+		try {
+			LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("/logging.properties"));
+		} catch (IOException e) {
+			logger_.log(Level.SEVERE, "log configration load error.", e);
+			
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
+		
 		if ((args.length == 1) && ("-h".equals(args[0]))){
 			exit(null);
 		}
@@ -27,7 +42,7 @@ public class Main {
 				  new File(arguments.getProperty("-t")), 
 				  new File(arguments.getProperty("-o")));
 		
-		System.out.println("finished.");
+		logger_.info("finished.");
 	}
 
 	private static void doProcess(File source, File target, File result) {
@@ -40,35 +55,39 @@ public class Main {
 			reader = new BufferedReader(new FileReader(target));
 			writer = new BufferedWriter(new FileWriter(result));
 
-			System.out.println("Start appending prefix.");
+			logger_.info("Start appending prefix.");
 			String dataLine = null;
+			StringBuffer message = null;
+			
 			while ((dataLine = reader.readLine()) != null) {
-				System.out.print("Read=" + dataLine);
+				message = new StringBuffer("Read=").append(dataLine);
 				String key = extractKey(dataLine, TARGET_KEY);
 				
 				String prefixData = prefixMap.get(key);
-				System.out.print(", source data=" + prefixData);
+				message.append(", source data=").append(prefixData);
 				
 				if (prefixData != null) {
 					String prefix = parsePrefix(prefixData);
 					String appendData = prefix + dataLine;
-					System.out.println(" => " + appendData);
+					message.append(" => ").append(appendData);
 					writer.write(appendData + "\n");
 				}
+				
+				logger_.info(message.toString());
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger_.log(Level.SEVERE, "IO error occur.", e);
 			
 		} finally {
 			Utils.quietClose(reader);
 			Utils.quietClose(writer);
 		}
 					
-		System.out.println("Appending prefix finished.\n");		
+		logger_.info("Appending prefix finished.");		
 	}
 	
 	private static HashMap<String, String> buildPrefixMap(File file) {
-		System.out.println("Start generating prefix mapp");
+		logger_.info("Start generating prefix mapp");
 		HashMap<String, String> result = new HashMap<String, String>();
 		BufferedReader input = null;
 		
@@ -81,19 +100,19 @@ public class Main {
 				
 				if (!result.containsKey(key)) { // need??
 					result.put(key, dataLine);
-					System.out.println("put " + dataLine + " with key=" + key);
+					logger_.info("put " + dataLine + " with key=" + key);
 				}
 			}			
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger_.log(Level.SEVERE, "IO error occur.", e);
 
 		} finally {
 			Utils.quietClose(input);
 			
 		}
 		
-		System.out.println("Generating prefix map finished.\n");
+		logger_.info("Generating prefix map finished.\n");
 		return result;
 	}
 	
@@ -186,7 +205,7 @@ public class Main {
 
 	private static void exit(String message) {
 		if (message != null) {
-			System.out.println(message);			
+			logger_.severe(message);
 		}
 		printUsage();
 		System.exit(-1);			

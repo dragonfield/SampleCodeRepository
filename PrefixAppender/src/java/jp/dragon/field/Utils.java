@@ -3,6 +3,7 @@ package jp.dragon.field;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.logging.Level;
 
 final class Utils {
 
@@ -11,7 +12,7 @@ final class Utils {
 			try {
 				reader.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Main.logger_.log(Level.SEVERE, "closing file error." ,e);
 			}
 		}
 	}
@@ -21,7 +22,7 @@ final class Utils {
 			try {
 				writer.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Main.logger_.log(Level.SEVERE, "closing file error." ,e);
 			}
 		}
 	}
