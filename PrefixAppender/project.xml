@@ -58,7 +58,7 @@
 	<!-- build information for the project -->
 	<build>
 		<sourceDirectory>src/java</sourceDirectory>
-		<unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+		<unitTestSourceDirectory>src/test1</unitTestSourceDirectory>
 		<unitTest>
 			<includes>
 				<include>**/*Test.java</include>
