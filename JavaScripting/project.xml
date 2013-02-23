@@ -45,6 +45,15 @@
 	<!-- jar files the project is dependent on -->
 	<dependencies>
 		<dependency>
+			<groupId>org.jruby</groupId>
+			<artifactId>jruby</artifactId>
+			<version>1.7.3</version>
+			<properties>
+				<scope>compile</scope>
+				<war.bundle>false</war.bundle>
+			</properties>			
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
@@ -57,8 +66,8 @@
 	
 	<!-- build information for the project -->
 	<build>
-		<sourceDirectory>src/java</sourceDirectory>
-		<unitTestSourceDirectory>src/test1</unitTestSourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
 		<unitTest>
 			<includes>
 				<include>**/*Test.java</include>
@@ -69,7 +78,7 @@
 		</unitTest>
 		<resources>
 			<resource>
-				<directory>src/conf</directory>
+				<directory>src/main/conf</directory>
 				<includes>
 					<include>**/*.properties</include>
 				</includes>
