@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="sample" default="all" basedir=".">
+	<property file="build.properties"/>
+	<target name="replace.logging.conf">
+		<replace file="logging.properties" token="@@TARGET@@" value="${file.name}"/>
+	</target>
+	
+	<target name="all" depends="replace.logging.conf"/>
+</project>
