@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:maven="jelly:maven" xmlns:ant="jelly:ant">
+	<goal name="build:prepare">
+		<attainGoal name="clean:clean"/>
+	</goal>
+	
+	<goal name="build:build">
+		<ant:echo message="war ファイルをビルドします。"/>
+		<attainGoal name="war:war"/>
+	</goal>
+</project>
