@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE setting[
+  <!ELEMENT setting (system_group+)>
+  <!ELEMENT system_group (instance+)>
+  <!ELEMENT instance ((statsrep | awrrep)?, ash?, activeses?, client?, lckchk?, pgamem?, sessionw?, sysevent?, sysstat?, undo?)>
+  <!ELEMENT statsrep EMPTY>
+  <!ELEMENT awrrep EMPTY>
+  <!ELEMENT ash EMPTY>
+  <!ELEMENT activeses EMPTY>
+  <!ELEMENT client EMPTY>
+  <!ELEMENT lckchk EMPTY>
+  <!ELEMENT pgamem EMPTY>
+  <!ELEMENT sessionw EMPTY>
+  <!ELEMENT sysevent EMPTY>
+  <!ELEMENT sysstat EMPTY>
+  <!ELEMENT undo EMPTY>
+  <!ATTLIST setting root CDATA #REQUIRED>
+  <!ATTLIST system_group name CDATA #REQUIRED>
+  <!ATTLIST instance name CDATA #REQUIRED location CDATA #REQUIRED>
+  <!ATTLIST statsrep dir CDATA #IMPLIED prefix CDATA #IMPLIED>
+  <!ATTLIST awrrep dir CDATA #IMPLIED prefix CDATA #IMPLIED>
+  <!ATTLIST ash dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST activeses dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST client dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST lckchk dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST pgamem dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST sessionw dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST sysevent dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST sysstat dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+  <!ATTLIST undo dir CDATA #IMPLIED prefix CDATA #IMPLIED date (pre|post) #IMPLIED>
+]>
+
+<setting root="C:/work">
+  <system_group name="TEST">
+	  <instance name="instance" location="./data/server">
+	  	<awrrep />
+	  	<ash />
+	  	<activeses />
+	  	<client />
+	  	<lckchk />
+	  	<pgamem />
+	  	<sessionw />
+	  	<sysevent />
+	  	<sysstat />
+	  	<undo />
+	  </instance>
+	</system_group>
+</setting>
+

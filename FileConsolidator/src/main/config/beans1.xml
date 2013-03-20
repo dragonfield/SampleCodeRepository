@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<bean id="messageBean" class="sample1.MessageBeanImpl">
+		<constructor-arg>
+			<value>Spring</value>
+		</constructor-arg>
+
+		<property name="greeting">
+			<value>Hello, </value>
+		</property>
+	</bean>
+
+	<task:scheduler id="messageScheduler" pool-size="5" />
+
+	<task:scheduled-tasks scheduler="messageScheduler">
+		<task:scheduled ref="messageBean" method="sayHello"
+			cron="* * * * * ?" />
+	</task:scheduled-tasks>
+
+</beans>
