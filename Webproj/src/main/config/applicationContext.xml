@@ -9,7 +9,12 @@
 
   <bean id="dataStore" class="jp.dragon.field.store.CsvDataStore" />
   <bean id="filterManager" class="jp.dragon.field.filter.FilterManagerImpl" >
-  	<property name="filter" ref="myFilterA"/>
+  	<property name="filters" >
+  		<list>
+  			<ref local="myFilterA" />
+  			<ref local="myFilterB" />
+  		</list>
+  	</property>
   </bean>
   <bean id="myFilterA" class="jp.dragon.field.filter.MyFilterA"/>
   <bean id="myFilterB" class="jp.dragon.field.filter.MyFilterB"/>

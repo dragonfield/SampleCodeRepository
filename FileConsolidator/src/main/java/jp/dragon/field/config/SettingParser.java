@@ -1,12 +1,14 @@
 package jp.dragon.field.config;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -17,7 +19,7 @@ public class SettingParser extends DefaultHandler {
 	private Setting setting_ = null;
 	private SystemGroup currentSystem_ = null;
 	private Instance currentInstance_ = null;
-	
+ 	
 	public SettingParser() {
 		
 	}
@@ -26,7 +28,15 @@ public class SettingParser extends DefaultHandler {
 		setting_ = setting;
 	}
 	
+	@Override
+	public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+		if (systemId.equals("http://localhost/dtd/setting.dtd")) {
+			return new InputSource(getClass().getClassLoader().getResourceAsStream("jp/dragon/field/config/setting.dtd"));
+		}
+		return null;
+	}
 		    
+	@Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
     	if ("setting".equalsIgnoreCase(qName)) {
     		setting_.setRoot(attributes.getValue("root"));
@@ -122,6 +132,7 @@ public class SettingParser extends DefaultHandler {
 
 	public static void main(String[] args) throws Exception {
 		SAXParserFactory spfactory = SAXParserFactory.newInstance();
+		spfactory.setValidating(true);
 		SAXParser parser = spfactory.newSAXParser();
 		Setting setting = new Setting();
 

@@ -18,7 +18,7 @@ public class FilterManagerImpl implements FilterManager {
 		for (int i = 0; i < filters_.size(); i++) {
 			filter = filters_.get(i);
 			result = filter.doFilter(current);
-			current = record;
+			current = result;
 		}
 		
 		return result;
@@ -27,5 +27,12 @@ public class FilterManagerImpl implements FilterManager {
 	public void setFilter(Filter filter) {
 		filters_.add(filter);
 	}
-	
+
+	public List<Filter> getFilters() {
+		return filters_;
+	}
+
+	public void setFilters(List<Filter> filters) {
+		filters_ = filters;
+	}	
 }
