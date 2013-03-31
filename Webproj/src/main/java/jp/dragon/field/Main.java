@@ -1,7 +1,6 @@
 package jp.dragon.field;
 
 import jp.dragon.field.filter.FilterManager;
-import jp.dragon.field.store.DataStore;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
